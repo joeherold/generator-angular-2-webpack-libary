@@ -1,0 +1,55 @@
+{
+  "name": "generator-angular2-webpack-library",
+  "version": "0.0.0",
+  "description": "A creator for a Angular2 library working with angluar-cli (AoT) using the webpack bundler",
+  "homepage": "",
+  "author": {
+    "name": "Johannes Pichler",
+    "email": "j.pichler@webpixels.at",
+    "url": "http://webpixels.at"
+  },
+  "files": [
+    "generators"
+  ],
+  "main": "generators/index.js",
+  "keywords": [
+    "angular2",
+    "angular",
+    "ng2",
+    "library",
+    "webpack",
+    "angular-cli",
+    "yeoman-generator"
+  ],
+  "dependencies": {
+    "yeoman-generator": "^1.0.0",
+    "chalk": "^1.1.3",
+    "yosay": "^1.2.1"
+  },
+  "devDependencies": {
+    "yeoman-test": "^1.6.0",
+    "yeoman-assert": "^2.2.1",
+    "eslint": "^3.1.1",
+    "eslint-config-xo-space": "^0.15.0",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^3.0.1",
+    "gulp-exclude-gitignore": "^1.0.0",
+    "gulp-line-ending-corrector": "^1.0.1",
+    "gulp-istanbul": "^1.0.0",
+    "gulp-mocha": "^3.0.1",
+    "gulp-plumber": "^1.0.0",
+    "gulp-nsp": "^2.1.0"
+  },
+  "eslintConfig": {
+    "extends": "xo-space",
+    "env": {
+      "mocha": true
+    }
+  },
+  "repository": "joeherold/generator-angular-2-webpack-libary",
+  "scripts": {
+    "prepublish": "gulp prepublish",
+    "test": "gulp"
+  },
+  "license": "MIT"
+}

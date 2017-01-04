@@ -1,0 +1,38 @@
+{
+  "name": "<%= name %>",
+  "version": "0.0.0.1",
+  "description": "<%= description %>",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "",
+    "prepublish": "ngc",
+    "build": "ngc",
+    "pack": "npm pack ../",
+    "test": "tslint *.ts && ngc && karma start",
+    "ngc": "ngc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+<%= gitURL %>"
+  },
+  "keywords": [],
+  "author": "<%= author %> <<%= email =>>",
+  "license": "MIT",
+  "bugs": {
+    "url": "<%= issuesUrl %>"
+  },
+  "homepage": "<%= homepage %>",
+  "dependencies": {},
+  "devDependencies": {
+    "@angular/common": "^2.4.1",
+    "@angular/compiler": "^2.4.1",
+    "@angular/compiler-cli": "^2.4.1",
+    "@angular/core": "^2.4.1",
+    "@angular/platform-browser": "^2.4.1",
+    "@angular/platform-server": "^2.4.1",
+    "@types/node": "^6.0.54",
+    "rxjs": "^5.0.2",
+    "typescript": "2.0.10",
+    "zone.js": "^0.7.2"
+  }
+}
