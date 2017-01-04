@@ -46,7 +46,7 @@
       "mocha": true
     }
   },
-  "repository": "joeherold/generator-angular-2-webpack-libary",
+  "repository": "joeherold/generator-angular2-webpack-library",
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"

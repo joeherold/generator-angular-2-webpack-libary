@@ -3,7 +3,7 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
-describe('generator-angular-2-webpack-libary:app', function () {
+describe('generator-angular2-webpack-library:app', function () {
   before(function () {
     return helpers.run(path.join(__dirname, '../generators/app'))
       .withPrompts({someAnswer: true})
