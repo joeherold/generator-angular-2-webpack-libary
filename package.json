@@ -1,6 +1,6 @@
 {
   "name": "generator-angular2-webpack-library",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A creator for a Angular2 library working with angluar-cli (AoT) using the webpack bundler",
   "homepage": "",
   "author": {
