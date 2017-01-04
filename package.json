@@ -1,6 +1,6 @@
 {
   "name": "generator-angular2-webpack-library",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A creator for a Angular2 library working with angluar-cli (AoT) using the webpack bundler",
   "homepage": "",
   "author": {
@@ -22,8 +22,9 @@
     "yeoman-generator"
   ],
   "dependencies": {
-    "yeoman-generator": "^1.0.0",
     "chalk": "^1.1.3",
+    "lodash": "^4.17.4",
+    "yeoman-generator": "^1.0.0",
     "yosay": "^1.2.1"
   },
   "devDependencies": {
