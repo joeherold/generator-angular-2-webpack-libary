@@ -1,6 +1,6 @@
 {
-  "name": "<%= name %>",
-  "version": "0.0.0.1",
+  "name": "<%= libraryName %>",
+  "version": "0.0.1",
   "description": "<%= description %>",
   "main": "index.js",
   "scripts": {
@@ -13,13 +13,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+<%= gitURL %>"
+    "url": "git+<%= gitRepositoryUrl %>"
   },
   "keywords": [],
-  "author": "<%= author %> <<%= email =>>",
+  "author": "<%= authorName %> <<%= authorEmail %>>",
   "license": "MIT",
   "bugs": {
-    "url": "<%= issuesUrl %>"
+    "url": "<%= gitIssuesUrl %>"
   },
   "homepage": "<%= homepage %>",
   "dependencies": {},

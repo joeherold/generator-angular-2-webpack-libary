@@ -2,11 +2,34 @@
 var Generator = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var _ = require('lodash');
+var path = require('path');
+var yeoman = require('yeoman-generator');
 
-module.exports = Generator.extend({
-  prompting: function () {
-    var done = this.async();
-    this.prompt([
+module.exports = class extends Generator {
+
+
+
+
+  constructor(args, opts) {
+    // Calling the super constructor is important so our generator is correctly set up
+    super(args, opts);
+    //yeoman.Base.apply(this, arguments);
+    // add option to skip install
+    //this.option('skip-install');
+    this.argument('appname', {
+      type: String,
+      required: false
+    });
+    var appName = this.appname || path.basename(process.cwd());
+    this.appname = _.kebabCase(appName);
+    this.modulename = _.snakeCase(appName);
+    this.classname = _.capitalize(_.camelCase(appName));
+  }
+
+
+  prompting() {
+    var prompts = [
       {
         type: 'input',
         name: 'name',
@@ -14,6 +37,7 @@ module.exports = Generator.extend({
         //Defaults to the project's folder name if the input is skipped
         default: this.appname
       },
+
       {
         type: 'input',
         name: 'description',
@@ -23,19 +47,34 @@ module.exports = Generator.extend({
       },
       {
         type: 'input',
-        name: 'author',
-        message: 'Your author name',
-        store: true,
-        //Defaults to the project's folder name if the input is skipped
-        default: this.author
+        name: 'authorName',
+        message: 'Your full name:',
+        validate: function (input) {
+          if (/.+/.test(input)) {
+            return true;
+          }
+          return 'Please enter your full name';
+        },
+        default: this.user.git.name
       },
       {
         type: 'input',
-        name: 'email',
-        message: 'Your email',
-        store: true,
-        //Defaults to the project's folder name if the input is skipped
-        default: this.email
+        name: 'authorEmail',
+        message: 'Your email address:',
+        validate: function (input) {
+          if (/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(input)) {
+            return true;
+          }
+          return 'Please enter a valid email address';
+        },
+        default: this.user.git.email
+      },
+      {
+        type: 'input',
+        name: 'libraryName',
+        message: 'Your library name (kebab-case)',
+        default: this.appname,
+        store: true
       },
       {
         type: 'input',
@@ -46,43 +85,58 @@ module.exports = Generator.extend({
       },
       {
         type: 'input',
-        name: 'gitURL',
-        message: 'Your project gitURL',
-        //Defaults to the project's folder name if the input is skipped
-        default: this.gitURL
+        name: 'gitRepositoryUrl',
+        message: 'Git repository url',
+        default: 'https://github.com/username/repo',
+        store: true
       },
+
       {
         type: 'input',
-        name: 'issuesUrl',
-        message: 'Your project issuesUrl',
+        name: 'gitIssuesUrl',
+        message: 'Your project gitIssuesUrl',
+        default: 'https://github.com/username/repo#issues',
         //Defaults to the project's folder name if the input is skipped
-        default: this.issuesUrl
+
       }
-    ]).then((answers) => {
-      this.log('app name', answers.name);
-      this.props = answers
-    });
+    ];
+
+    return this.prompt(prompts).then(function (props) {
+      // To access props later use this.props.someAnswer;
+      this.props = props;
+    }.bind(this));
 
 
-  },
+  }
 
-  writing: function () {
+  writing() {
+    //this.destinationRoot()
     this.fs.copyTpl(
       this.templatePath('_package.json'),
-      this.destinationPath('package.json'), {
+      this.destinationPath('package.json'),
+      {
         name: this.props.name,
         description: this.props.description,
-        author: this.props.author,
-        email: this.props.email,
+        authorName: this.props.authorName,
+        authorEmail: this.props.authorEmail,
         homepage: this.props.homepage,
-        gitURL: this.props.gitURL,
-        issuesUrl: this.props.issuesUrl
+        gitRepositoryUrl: this.props.gitRepositoryUrl,
+        gitIssuesUrl: this.props.gitIssuesUrl,
+        libraryName: this.props.libraryName
       }
     );
     this.fs.copyTpl(
       this.templatePath('_tsconfig.json'),
-      this.destinationPath('tsconfig.json'), {
-        name: this.props.name
+      this.destinationPath('tsconfig.json'),
+      {
+        name: this.props.name,
+        description: this.props.description,
+        authorName: this.props.authorName,
+        email: this.props.email,
+        homepage: this.props.homepage,
+        gitRepositoryUrl: this.props.gitRepositoryUrl,
+        gitIssuesUrl: this.props.gitIssuesUrl,
+        libraryName: this.props.libraryName
       }
     );
 
@@ -95,29 +149,33 @@ module.exports = Generator.extend({
       this.templatePath('.npmignore'),
       this.destinationPath('.npmignore')
     );
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('LICENSE'),
-      this.destinationPath('LICENSE', {
+      this.destinationPath('LICENSE'),
+      {
         name: this.props.name,
         description: this.props.description,
-        author: this.props.author,
+        authorName: this.props.authorName,
         email: this.props.email,
         homepage: this.props.homepage,
-        gitURL: this.props.gitURL,
-        issuesUrl: this.props.issuesUrl
-      })
+        gitRepositoryUrl: this.props.gitRepositoryUrl,
+        gitIssuesUrl: this.props.gitIssuesUrl,
+        libraryName: this.props.libraryName
+      }
     );
-    this.fs.copy(
+    this.fs.copyTpl(
       this.templatePath('README.md'),
-      this.destinationPath('README.md', {
+      this.destinationPath('README.md'),
+      {
         name: this.props.name,
         description: this.props.description,
-        author: this.props.author,
+        authorName: this.props.authorName,
         email: this.props.email,
         homepage: this.props.homepage,
-        gitURL: this.props.gitURL,
-        issuesUrl: this.props.issuesUrl
-      })
+        gitRepositoryUrl: this.props.gitRepositoryUrl,
+        gitIssuesUrl: this.props.gitIssuesUrl,
+        libraryName: this.props.libraryName
+      }
     );
 
     this.fs.copy(
@@ -134,12 +192,15 @@ module.exports = Generator.extend({
     );
 
 
-  },
+  }
 
   //Install Dependencies
-  install: function () {
+  install() {
 
-    this.installDependencies();
+    this.installDependencies({
+      //skipInstall: this.options['skip-install'],
+      bower: false,
+    });
 
   }
-});
+};
